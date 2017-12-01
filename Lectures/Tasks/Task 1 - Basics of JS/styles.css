@@ -1,0 +1,20 @@
+/* styles for all page */
+.container {
+    padding: 15px;
+}
+
+.textarea {
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+}
+
+.btn {
+    cursor: pointer;
+    color: #fff;
+    background-color: #337ab7;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}

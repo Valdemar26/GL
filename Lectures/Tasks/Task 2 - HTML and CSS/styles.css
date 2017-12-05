@@ -1,0 +1,52 @@
+/* styles for all page */
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+.clearfix:before, .clearfix:after {
+    content: "."; /* добавить содержимое: "." */
+    display: block;  /* сделать блоком, т.к. inline не может иметь clear */
+    clear: both;  /* с обеих сторон clear */
+    visibility: hidden; /* сделать невидимым, зачем нам точка внизу? */
+    height: 0;  /* сделать высоту 0, чтобы не занимал место */
+}
+.container {
+    /*padding-right: 15px;*/
+    /*padding-left: 15px;*/
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px solid orangered;
+    width: 90%;
+}
+.row {
+    /*margin-right: -15px;*/
+    /*margin-left: -15px;*/
+    border: 1px solid greenyellow;
+}
+.row .user-img, .row .user-info {
+    /*display: inline-block;*/
+    float: left;
+}
+.row .user-img .avatar {
+    border: 5px solid #000;
+    border-radius: 50%;
+}
+.row .user-info {
+
+}
+.row .user-info span .phone {
+    background-image: url("images/telephone.png");
+    width: 20px;
+    height: 20px;
+}
+.main-info {
+    /*display: inline-block;*/
+
+}
+

@@ -2,14 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>GL Base Camp | Task 2</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 </head>
 
+<!-- todo upload project to vz.zzz.com.ua to show in live -->
 <body>
 <div class="container">
     <!-- user info -->
-    <div class="row">
+    <div class="row header">
         <div class="col">
             <img src="images/avatar.png" alt="avatar" title="user image" class="avatar">
         </div>
@@ -59,8 +62,10 @@
             <h4>2016</h4>
             <p>JSBursa Courses - deep knowledge of JavaScript and Angular.
                 Courses with lot of interesting projects</p>
+            <br>
             <h4>2017</h4>
             <p>Online courses at codecademy, coursehunters, frontendmasters</p>
+            <br>
         </div>
     </div>
 
@@ -73,13 +78,13 @@
             <h3 class="interests">Internet</h3>
         </div>
         <div class="col">
-            <h3 class="interests">JavaScripe</h3>
+            <h3 class="interests">JavaScript</h3>
         </div>
         <div class="col">
-            <h3 class="interests">Coding Challenges</h3>
+            <h3 class="interests">Coding</h3>
         </div>
     </div>
-    <div class="row">
+    <div class="row interests-block">
         <div class="col">
             <h3 class="interests">Traveling</h3>
         </div>
@@ -109,18 +114,12 @@
     <!-- contact form block -->
     <h2>Contact form:</h2>
     <div class="contact">
-        <input type="text" id="email" placeholder="email@email.com"><br>
-        <textarea name="textarea" id="textarea" class="textarea"></textarea><br>
+        Email: <input type="text" id="email" placeholder="email@email.com"><br>
+        Message: <textarea name="textarea" id="textarea" class="textarea"></textarea><br>
         <button class="btn" id="btn">Submit</button>
-
-        <!--<input type="text" id="email" placeholder="example@email.com">-->
-        <!--<br>-->
-        <!--<textarea name="message" id="usersMessage" placeholder="Message"></textarea>-->
-        <!--<button class="btn">Send</button>-->
     </div>
 </div>
 
 <script src="task2.js"></script>
 </body>
 </html>
-

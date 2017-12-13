@@ -1,0 +1,60 @@
+
+.container{
+  width: 280px;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: cyan;
+}
+
+.month-field{
+   display: inline-block;
+   width: 245px;
+   text-align: center;
+   font-size: 20px;
+ }
+
+.controls{
+   font-size: 20px;
+   cursor: pointer;
+ }
+
+.cellule{
+   display: inline-block;
+   width: 38px;
+   height: 38px;
+   font-size: 30px;
+   font-weight: 600;
+   margin: 0;
+   background-color: white;
+   text-align: center;
+   border: 1px solid black;
+   vertical-align: top;
+ }
+
+.weekend-cellule{
+   color: red;
+ }
+
+.other-month-cellule{
+   color: grey;
+ }
+
+.day-cellule{
+   display: inline-block;
+   margin: 0;
+   width: 40px;
+   text-align: center;
+ }
+
+.cur-day{
+   color: blue;
+   background-color: #FFD300;
+ }
+
+.clicked-date{
+   color: white;
+   background-color: #1E90FF;
+ }
+.calendar-dates{
+   font-size: 0;
+}

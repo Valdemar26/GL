@@ -75,6 +75,7 @@ console.log(distinctValues(array3, array4));
  * 4. Random.
  * Write a function which creates an array with defined size and fills it with random values
  * function generateArr(arrSize) {...};
+ *
  * */
 var arrSize = 14;
 

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drag'n'Drop</title>
+    <style type="text/css">
+        body {
+            border: 2px solid orangered;
+        }
+        .field {
+            display: block;
+            width: 80%;
+            height: 300px;
+            margin: 0 auto;
+            border: 1px solid #0a0a0a;
+            overflow: hidden;
+        }
+        img {
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+    
+    </script>
+
+    <h2 title="Алгоритм Drag'n'Drop">Drag’n’Drop Algorithm</h2>
+    <p title="Відслідковуємо натискання кнопки миші на елементі,що переноситься, за допомогою події 'mousedown'.">
+        We track the mouse button on the portable element using the 'mousedown' event.</p>
+    <p title="При натисканні - підготовити елемент до переміщення.">
+        When pressed, prepare the element for movement.</p>
+    <p title="Далі відслідковуємо рух миші через 'mousemove' і переміщаємо елемент на нові координати шляхом
+     зміни left / top і position: absolute.">
+        Next we track the mouse movement through 'mousemove' and move the portable element to new coordinates
+        by changing left / top and position: absolute.</p>
+    <p title="При відпусканні кнопки миші, тобто з настанням події 'mouseup' - зупинити перенесення елемента і
+     здійснити всі дії, пов'язані з закінченням Drag'n'Drop.">
+        When the mouse button is released, that is, the onset of the 'mouseup' event - to stop the element
+        being moved and to perform all the actions associated with the end of Drag'n'Drop.</p>
+
+    <h3 title="Поле для Drag’n’Drop">Drag’n’Drop Field</h3>
+    <div class="field">
+        <p title="Клікніть по м'ячу і тягніть, щоб рухати його.">
+            Click on the ball and drag to move it.
+        </p>
+        <img src="https://js.cx/clipart/ball.svg" alt="ball" id="ball">
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            console.log('loaded');
+            let ball = document.getElementById('ball');
+            ball.onmousedown = function(e) {
+                let coords = getCoords(ball),
+                    shiftX = e.pageX - coords.left,
+                    shiftY = e.pageY - coords.top;
+
+                // check if mouse pressed and prepare to moved
+                ball.style.position = 'absolute';
+                moveAt(e);
+
+                // move ball in body
+                document.body.appendChild(ball);
+
+                ball.style.zIndex = 1000; // show ball under another elements
+
+                // move ball under cursor
+                function moveAt(e) {
+                    ball.style.left = e.pageX - shiftX + 'px';
+                    ball.style.top = e.pageY - shiftY + 'px';
+                }
+
+                // move on screen
+                document.onmousemove = function(e) {
+                    moveAt(e);
+                };
+
+                // check when moving is finished
+                ball.onmouseup = function() {
+                    document.onmousemove = null;
+                    ball.onmouseup = null;
+                };
+
+                // prevent default browser drag-n-drop event
+                ball.ondragstart = function() {
+                    return false;
+                };
+
+                function getCoords(elem) {
+                    let box = elem.getBoundingClientRect();
+                    return {
+                        top: box.top + pageYOffset,
+                        left: box.left + pageXOffset
+                    }
+                }
+
+            }
+        });
+    </script>
+</body>
+</html>

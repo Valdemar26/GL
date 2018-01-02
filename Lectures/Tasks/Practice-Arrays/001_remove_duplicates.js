@@ -12,7 +12,14 @@
 var arr = [1, 3, 7, 1, 3, 9, 8, 7];
 
 function removeDuplicates(arr) {
-
+    let i,
+        items = [];
+    for(i = 0; i < arr.length; i++) {
+        if(!items.includes(arr[i])) {
+            items.push(arr[i]);
+        }
+    }
+    return items;
 }
 
 function unique(arr) {

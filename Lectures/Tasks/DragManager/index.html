@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.polyfill.io/v1/polyfill.js?features=Element.prototype.closest"></script>
+    <script src="drag.js"></script>
+    <link rel="stylesheet" href="drag.css">
+    <script>
+        DragManager.onDragCancel = function(dragObject) {
+            dragObject.avatar.rollback();
+        };
+
+//        DragManager.onDragEnd = function(dragObject, dropElem) {
+//            dragObject.elem.style.display = 'none';
+//            dropElem.classList.add('computer-smile');
+//            setTimeout(function() {
+//                dropElem.classList.remove('computer-smile');
+//            }, 200);
+//        };
+    </script>
+</head>
+
+<body>
+
+<h1>Welcome to X-0 Game with Drag'n'Drop</h1>
+<div class="winnerMessage"></div>
+
+<div class="field">
+    <div class="row">
+        <div class="cell droppable"></div><div class="cell droppable"></div><div class="cell droppable"></div>
+    </div>
+    <div class="row">
+        <div class="cell droppable"></div><div class="cell droppable"></div><div class="cell droppable"></div>
+    </div>
+    <div class="row">
+        <div class="cell droppable"></div><div class="cell droppable"></div><div class="cell droppable"></div>
+    </div>
+</div>
+
+<div class="choose">
+    <p>Click on the X or O and drag to move it.</p>
+    <img src="x.png" alt="X" id="x" class="draggable x-o">
+    <img src="o.png" alt="O" id="o" class="draggable x-o">
+</div>
+
+</body>
+
+</html>

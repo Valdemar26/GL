@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drag_n_Drop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Welcome to X-0 Game with Drag'n'Drop</h1>
+<button id="startNewGame">Start new game</button>
+<div class="winnerMessage"></div>
+
+<div class="field" id="field">
+    <div class="row">
+        <div class="cell x"></div><div class="cell o"></div><div class="cell x"></div>
+    </div>
+    <div class="row">
+        <div class="cell o"></div><div class="cell x"></div><div class="cell o"></div>
+    </div>
+    <div class="row">
+        <div class="cell x"></div><div class="cell o"></div><div class="cell x"></div>
+    </div>
+</div>
+
+<div class="choose" id="choose">
+    <p>Click on the X or O and drag to move it.</p>
+    <img src="x.png" alt="X" id="x" class="x-o">
+    <img src="o.png" alt="O" id="o" class="x-o">
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

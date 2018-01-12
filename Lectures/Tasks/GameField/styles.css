@@ -1,0 +1,67 @@
+body{
+    background: rgb(140,140,140) url("http://st2.depositphotos.com/7727968/10961/i/950/depositphotos_109613658-stock-photo-drawing-on-eggs-tic-tac.jpg") no-repeat center fixed;
+    background-size: 100%;
+}
+
+h1{
+    text-align: center;
+    font-size: 50px;
+    color: red;
+}
+
+.game{
+    color: red;
+    font-size: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 700px;
+    text-align: center;
+}
+
+.clearfix{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.game-field{
+    float: left;
+    background-color: red;
+    width: 380px;
+}
+
+.players{
+    float: right;
+    width: 280px;
+}
+
+.cellule, .player{
+    display: inline-block;
+    vertical-align: top;
+    margin: 3px;
+    width: 120px;
+    height: 120px;
+    background-color: white;
+    text-align: center;
+    font-size: 90px;
+    line-height: 120px;
+    user-select: none;
+}
+
+.player{
+    cursor: pointer;
+}
+
+.reload{
+    display: block;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 150px;
+    height: 40px;
+    background-color: yellow;
+    border-color: yellow;
+    color: red;
+    font-size: 20px;
+    visibility: hidden;
+}

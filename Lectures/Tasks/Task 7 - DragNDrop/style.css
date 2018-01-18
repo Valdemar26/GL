@@ -1,0 +1,59 @@
+
+div {
+    box-sizing: border-box;
+}
+.field {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+    border: 5px solid blue;
+    width: 610px;
+    border-radius: 10px;
+}
+
+.cell {
+    align-items: center;
+    border: 2px solid gray;
+    display: flex;
+    height: 200px;
+    justify-content: center;
+    width: 200px;
+}
+.cell.x:after {
+    content: '✕';
+    color: green;
+    font-size: 140px;
+    position: absolute;
+    width: 194px;
+    height: 194px;
+    line-height: 194px;
+    text-align: center;
+}
+
+.cell.o:after {
+    font-weight: bold;
+    color: red;
+    content: '◯';
+    font-size: 140px;
+    position: absolute;
+    width: 194px;
+    height: 194px;
+    line-height: 200px;
+    text-align: center;
+}
+
+
+.winner-message {
+    font-size: 50px;
+    font-weight: bold;
+}
+.choose {
+    margin: 10px;
+    border: 5px solid blue;
+    width: 310px;
+    border-radius: 10px;
+}
+.x-o {
+    width: 140px;
+    height: 140px;
+}

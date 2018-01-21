@@ -1,7 +1,8 @@
 (function () {
-    let matrix;
-    let isGameOver = false;
-    let lastSuccessType = null;
+    let matrix,
+        isGameOver = false,
+        lastSuccessType = null,
+        winner = document.getElementById('winner');
 
     init();
     attachEvents();
@@ -65,6 +66,7 @@
         isGameOver = false;
         lastSuccessType = null;
         document.querySelectorAll('.cell').forEach(el => (el.innerHTML = ''));
+        winner.innerHTML = '';
         matrix = [
             [null, null, null],
             [null, null, null],
@@ -137,7 +139,7 @@
             let isTypeWon = checkFullRow(type) || checkFullCol(type) || checkDiagonal(type);
 
             if (isTypeWon) {
-                console.log(`"${type}" won!!! Congrats!`);
+                winner.innerHTML = `"${type}" Won! the game! Congrats!`;
                 isGameOver = true;
                 return;
             }
@@ -145,7 +147,7 @@
 
         const isDraw = checkFullfill();
         if (isDraw) {
-            console.log('Draw');
+            winner.innerHTML = 'Draw';
             isGameOver = true;
         }
     }

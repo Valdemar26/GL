@@ -19,29 +19,6 @@ div {
     justify-content: center;
     width: 200px;
 }
-.cell.x:after {
-    content: '✕';
-    color: green;
-    font-size: 140px;
-    position: absolute;
-    width: 194px;
-    height: 194px;
-    line-height: 194px;
-    text-align: center;
-}
-
-.cell.o:after {
-    font-weight: bold;
-    color: red;
-    content: '◯';
-    font-size: 140px;
-    position: absolute;
-    width: 194px;
-    height: 194px;
-    line-height: 200px;
-    text-align: center;
-}
-
 
 .winner-message {
     font-size: 50px;

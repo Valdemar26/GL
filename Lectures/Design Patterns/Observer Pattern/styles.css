@@ -1,0 +1,31 @@
+.sub-ms {
+    height: 40px;
+    cursor: pointer;
+    color: #fff;
+    background-color: #5cb85c;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #4cae4c;
+}
+.unsub-ms {
+    height: 40px;
+    cursor: pointer;
+    color: #fff;
+    background-color: #d9534f;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #d43f3a;
+}
+
+.fire {
+    height: 40px;
+    cursor: pointer;
+    color: #fff;
+    background-color: #f0ad4e;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #eea236;
+}

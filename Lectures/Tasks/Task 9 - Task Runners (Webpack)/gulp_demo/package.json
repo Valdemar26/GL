@@ -1,0 +1,23 @@
+{
+  "name": "gulp_demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "author": "",
+  "license": "",
+  "scripts": {
+    "start-app": "gulp build-all && npm run start-server",
+    "start-server": "node server/app.js"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-csso": "^3.0.1",
+    "gulp-less": "^3.4.0"
+  },
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}

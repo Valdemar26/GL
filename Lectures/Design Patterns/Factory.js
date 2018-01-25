@@ -18,9 +18,9 @@ function MemberFactory() {
         member.type = type;
 
         member.define = function() {
-            fact.innerHTML = `
-                <h3>Factory Design Pattern</h3>
-                <p>${this.name} is member of '${this.type}' type with cost of ${this.cost}</p>`;
+            // fact.innerHTML = `
+            //     <h3>Factory Design Pattern</h3>
+            //     <p>${this.name} is member of '${this.type}' type with cost of ${this.cost}</p>`;
             console.log(`${this.name} is member of '${this.type}' type with cost of ${this.cost}`);
         };
 

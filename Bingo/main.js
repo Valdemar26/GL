@@ -25,6 +25,8 @@ window.addEventListener('load', function() {
     const btnCreate = document.querySelector('.btn-create');
     const btnRemove = document.querySelector('.btn-remove');
     const btnStart = document.querySelector('.btn-start');
+    const btnStop = document.querySelector('.btn-stop');
+
 
     const bingoTable = document.querySelector('.bingotable');
 
@@ -38,6 +40,8 @@ window.addEventListener('load', function() {
     btnCreate.addEventListener('click', createButtonClicked);
     btnRemove.addEventListener('click', removeButtonClicked);
     btnStart.addEventListener('click', startButtonClicked);
+    btnStop.addEventListener('click', stopButtonClicked);
+
 
     // create the function that we'll need
     function calculatePieCost() {
@@ -45,11 +49,7 @@ window.addEventListener('load', function() {
     }
 
     function createButtonClicked() {
-        btnCreate.classList.add('hidden');
-        btnRemove.classList.add('visible');
-        btnStart.classList.add('visible');
-        configuration.classList.add('hidden');
-        pageView.innerHTML = 'Generated Cards View';
+        generatedCardsView();
     }
 
     function removeButtonClicked() {
@@ -61,14 +61,59 @@ window.addEventListener('load', function() {
         });
 
         bingoTable.classList.add('hidden');
+
+        // back to Entry Page View
+        entryPageView();
     }
 
     function startButtonClicked() {
         pageView.innerHTML = 'Game View';
-        btnStart.innerHTML = 'Stop';
-        btnStart.classList.add('stop');
+        // btnStart.innerHTML = 'Stop';
+        btnStart.classList.remove('visible');
+        btnStart.classList.add('hidden');
+        btnStop.classList.remove('hidden');
+        btnStop.classList.add('visible');
         numbersSection.classList.add('visible');
         winnersSection.classList.add('visible');
+    }
+
+    function stopButtonClicked() {
+        console.log('stop button clicked');
+        generatedCardsView();
+        btnStop.classList.remove('visible');
+        btnStop.classList.add('hidden');
+    }
+
+    function entryPageView() {
+        pageView.innerHTML = 'Entry Page View';
+        btnCreate.classList.remove('hidden');
+        btnCreate.classList.add('visible');
+        configuration.classList.remove('hidden');
+        configuration.classList.add('visible');
+        numbersSection.classList.remove('visible');
+        numbersSection.classList.add('hidden');
+        winnersSection.classList.remove('visible');
+        winnersSection.classList.add('hidden');
+        btnRemove.classList.remove('visible');
+        btnRemove.classList.add('hidden');
+        btnStart.classList.remove('visible');
+        btnStart.classList.add('hidden');
+
+        let allWinNumbers = document.querySelectorAll('h5');
+        [].forEach.call(allWinNumbers, function(e) {
+            e.innerHTML = '';
+        });
+    }
+    
+    function generatedCardsView() {
+        btnCreate.classList.remove('visible');
+        btnCreate.classList.add('hidden');
+        btnRemove.classList.remove('hidden');
+        btnRemove.classList.add('visible');
+        btnStart.classList.remove('hidden');
+        btnStart.classList.add('visible');
+        configuration.classList.add('hidden');
+        pageView.innerHTML = 'Generated Cards View';
     }
 
     /**

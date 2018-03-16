@@ -7,9 +7,73 @@ window.addEventListener('load', function() {
     let createCards = document.querySelector('.create-cards');
     let randomNumber = document.querySelector('.random-number');
     let numbersSection = document.querySelector('.numbers-section');
+    let winnersSection = document.querySelector('.winners-section');
     let win = document.querySelector('.win');
     let squareNum = []; // array with numbers from bingo-card
     let winner = false;
+
+    /**
+     * work with Entry Page View
+     */
+    // grab everything we need
+    const usersInput = document.querySelector('[name=users]');
+    const cardsInput = document.querySelector('[name=cards]');
+    const numbersInput = document.querySelector('[name=numbers]');
+    const configuration = document.querySelector('.configuration');
+    const pageView = document.querySelector('.page-view');
+
+    const btnCreate = document.querySelector('.btn-create');
+    const btnRemove = document.querySelector('.btn-remove');
+    const btnStart = document.querySelector('.btn-start');
+
+    const bingoTable = document.querySelector('.bingotable');
+
+    pageView.innerHTML = 'Entry Page View';
+
+    // add our event listeners
+    usersInput.addEventListener('input', calculatePieCost);
+    cardsInput.addEventListener('input', calculatePieCost);
+    numbersInput.addEventListener('input', calculatePieCost);
+
+    btnCreate.addEventListener('click', createButtonClicked);
+    btnRemove.addEventListener('click', removeButtonClicked);
+    btnStart.addEventListener('click', startButtonClicked);
+
+    // create the function that we'll need
+    function calculatePieCost() {
+        console.log('clicked');
+    }
+
+    function createButtonClicked() {
+        btnCreate.classList.add('hidden');
+        btnRemove.classList.add('visible');
+        btnStart.classList.add('visible');
+        configuration.classList.add('hidden');
+        pageView.innerHTML = 'Generated Cards View';
+    }
+
+    function removeButtonClicked() {
+
+        let allCells = document.querySelectorAll('.cell');
+        [].forEach.call(allCells, function(e) {
+            e.innerHTML = '';
+            e.classList.remove('selected');
+        });
+
+        bingoTable.classList.add('hidden');
+    }
+
+    function startButtonClicked() {
+        pageView.innerHTML = 'Game View';
+        btnStart.innerHTML = 'Stop';
+        btnStart.classList.add('stop');
+        numbersSection.classList.add('visible');
+        winnersSection.classList.add('visible');
+    }
+
+    /**
+     * end of Entry Page View
+     */
 
 
     let usedNums = new Array(76);// empty array with length 76
@@ -85,7 +149,7 @@ window.addEventListener('load', function() {
         setTimeout(function() {
             clearInterval(timerId);
             console.log('stop');
-        }, 5000);
+        }, 2000);
     }
 
     /**

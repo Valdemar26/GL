@@ -26,7 +26,7 @@ p a {
 
 }
 
-#bingotable {
+.bingotable {
     margin: 0 auto;
     text-align: center;
     width: 400px;
@@ -44,6 +44,7 @@ th, td {
 
 .orange {
     background: #eea236;
+    color: #fff;
 }
 
 .random-number {
@@ -61,13 +62,15 @@ th, td {
 
 .numbers-section {
     width: 40%;
-    border: 1px solid #d9534f;
+    border: 2px solid #404040;
+    border-radius: 3px;
     display: flex;
     justify-content: space-around;
     height: 200px;
     overflow-y: scroll;
     overflow-x: hidden;
     flex-direction: column;
+    opacity: 0;
 }
 .numbers-section h5 {
     flex-direction: row;
@@ -91,8 +94,10 @@ th, td {
 
 .winners-section {
     width: 40%;
-    border: 1px solid #80ff00;
+    border: 2px solid #404040;
+    border-radius: 3px;
     justify-content: center;
+    opacity: 0;
 }
 .winners-section h4 {
     font-weight: 300;
@@ -106,7 +111,12 @@ th, td {
     color: #fff;
 }
 
+.entry {
+    margin-bottom: 10px;
+}
+
 .btn {
+    min-width: 120px;
     display: inline-block;
     padding: 6px 12px;
     margin-bottom: 0;
@@ -134,9 +144,44 @@ th, td {
 .btn-remove {
     background-color: #d9534f;
     border-color: #d43f3a;
+    opacity: 0;
+}
+.btn-remove:hover, .btn-remove:active {
+    background-color: #ac2925;
+    border-color: #761c19;
 }
 
 .btn-start {
     background-color: #5cb85c;
     border-color: #4cae4c;
+    opacity: 0;
+}
+.btn-start:hover, .btn-start:active {
+    background-color: #398439;
+    border-color: #255625;
+}
+
+.page-view {
+    color: #404040;
+    transition : all .4s;
+    text-align: center;
+}
+
+.hidden {
+    opacity:0;
+    transition : all .5s;
+}
+
+.visible {
+    opacity:1;
+    transition : all .4s;
+}
+
+.stop {
+    background-color: #ec971f;
+    border-color: #d58512;
+}
+.stop:hover, .stop:active {
+    background-color: #d58512;
+    border-color: #985f0d;
 }

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bingo Game</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+
+</head>
+<body>
+
+<div id="header">
+    <h1>Welcome to the Bingo Game</h1>
+</div>
+
+<div class="entry">
+    <h2>Entry Page View</h2>
+    <label for="users">Users</label>
+    <input type="number" id="users" name="users" min="2" max="5" step="1" value="2">
+    <label for="users">Cards</label>
+    <input type="number" id="cards" name="cards" min="1" max="3" step="1" value="1">
+    <label for="users">Numbers</label>
+    <input type="number" id="numbers" name="numbers" min="25" max="100" step="1" value="25">
+
+    <button type="button" class="btn btn-create">Create cards</button>
+
+    <button type="button" class="btn btn-remove">Remove cards</button>
+
+    <button type="button" class="btn btn-start">Start Game</button>
+
+</div>
+
+<div class="container">
+
+    <div id="content">
+        <table id="bingotable">
+            <tr>
+                <th class="orange">B</th>
+                <th class="orange">I</th>
+                <th class="orange">N</th>
+                <th class="orange">G</th>
+                <th class="orange">O</th>
+            </tr>
+            <tr>
+                <td class="cell" id="square0"> &nbsp;</td>
+                <td class="cell" id="square1"> &nbsp;</td>
+                <td class="cell" id="square2"> &nbsp;</td>
+                <td class="cell" id="square3"> &nbsp;</td>
+                <td class="cell" id="square4"> &nbsp;</td>
+            </tr>
+            <tr>
+                <td class="cell" id="square5"> &nbsp;</td>
+                <td class="cell" id="square6"> &nbsp;</td>
+                <td class="cell" id="square7"> &nbsp;</td>
+                <td class="cell" id="square8"> &nbsp;</td>
+                <td class="cell" id="square9"> &nbsp;</td>
+            </tr>
+            <tr>
+                <td class="cell" id="square10"> &nbsp;</td>
+                <td class="cell" id="square11"> &nbsp;</td>
+                <td class="cell" id="square12"> &nbsp;</td>
+                <td class="cell" id="square13"> &nbsp;</td>
+                <td class="cell" id="square14"> &nbsp;</td>
+            </tr>
+            <tr>
+                <td class="cell" id="square15"> &nbsp;</td>
+                <td class="cell" id="square16"> &nbsp;</td>
+                <td class="cell" id="square17"> &nbsp;</td>
+                <td class="cell" id="square18"> &nbsp;</td>
+                <td class="cell" id="square19"> &nbsp;</td>
+            </tr>
+            <tr>
+                <td class="cell" id="square20"> &nbsp;</td>
+                <td class="cell" id="square21"> &nbsp;</td>
+                <td class="cell" id="square22"> &nbsp;</td>
+                <td class="cell" id="square23"> &nbsp;</td>
+                <td class="cell" id="square24"> &nbsp;</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="random-section">
+        <p>Random Numbers every 2 seconds</p>
+        <div class="random-number"></div>
+    </div>
+
+
+</div>
+
+<p><a href="#" class="create-cards">Click here</a> to create a new card</p>
+
+<div class="container">
+    <div class="numbers-section">
+        <p>Numbers Section</p><br>
+        <div class="win"></div>
+    </div>
+
+    <div class="winners-section">
+        <p>Winners Section</p>
+        <div class="message"></div>
+    </div>
+</div>
+
+<script src="getWinner.js"></script>
+<script src="main.js"></script>
+
+</body>
+</html>

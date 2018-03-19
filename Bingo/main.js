@@ -11,6 +11,7 @@ window.addEventListener('load', function() {
     let win = document.querySelector('.win');
     let squareNum = []; // array with numbers from bingo-card
     let winner = false;
+    let content = document.querySelector('.content');
 
     /**
      * work with Entry Page View
@@ -58,7 +59,34 @@ window.addEventListener('load', function() {
         });
     }
 
+    function removeTable() {
+        let allTables = document.querySelectorAll('.bingotable');
+        // let tableCopy = document.querySelectorAll('template').splice(1);
+        // [].forEach.call(tableCopy, function(e) {
+        //     content.removeChild(tableCopy);
+        // });
+        [].forEach.call(allTables, function(e) {
+            e.classList.add('template');
+            //content.removeChild(tableCopy); //todo need to use this code, but it doesn't work, because remove first table
+        })
+    }
+
     function createButtonClicked() {
+        let count_cards = document.getElementById('cards');
+        console.log(count_cards.value);
+        let myTable = document.getElementsByTagName("table")[0];
+
+        let myClone;
+        for(let i = 0; i < count_cards.value; i++) {
+            myClone = myTable.cloneNode(true); // the true is for deep cloning
+            myClone.classList.remove('template');
+            //document.body.appendChild(myClone);
+            generateRandomNumber();
+            content.appendChild(myClone);
+        }
+        // let clone_times = myClone.repeat(count_cards.value);
+        // document.body.appendChild(clone_times);
+
         generatedCardsView();
     }
 
@@ -66,7 +94,9 @@ window.addEventListener('load', function() {
 
         removeSelected();
 
-        bingoTable.classList.add('hidden');
+        removeTable(); // remove all generated table
+
+        //bingoTable.classList.add('hidden');
 
         // back to Entry Page View
         entryPageView();
@@ -80,6 +110,8 @@ window.addEventListener('load', function() {
         btnStop.classList.add('visible');
         numbersSection.classList.add('visible');
         winnersSection.classList.add('visible');
+        randomSection.classList.remove('hidden');
+        randomSection.classList.add('visible');
 
         console.log('inputs data: ', usersInput.value, cardsInput.value, numbersInput.value);
 
@@ -96,8 +128,8 @@ window.addEventListener('load', function() {
 
     function entryPageView() {
         pageView.innerHTML = 'Entry Page View';
-        bingoTable.classList.remove('visible');
-        bingoTable.classList.add('hidden');
+        // bingoTable.classList.remove('visible');
+        // bingoTable.classList.add('hidden');
         randomSection.classList.remove('visible');
         randomSection.classList.add('hidden');
         btnCreate.classList.remove('hidden');
@@ -130,8 +162,8 @@ window.addEventListener('load', function() {
         btnStart.classList.add('visible');
         configuration.classList.remove('visible');
         configuration.classList.add('hidden');
-        bingoTable.classList.remove('hidden');
-        bingoTable.classList.add('visible');
+        // bingoTable.classList.remove('hidden');
+        // bingoTable.classList.add('visible');
         pageView.innerHTML = 'Generated Cards View';
         removeSelected();
     }

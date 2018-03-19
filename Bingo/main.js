@@ -27,25 +27,35 @@ window.addEventListener('load', function() {
     const btnStart = document.querySelector('.btn-start');
     const btnStop = document.querySelector('.btn-stop');
 
-
     const bingoTable = document.querySelector('.bingotable');
+    const randomSection = document.querySelector('.random-section');
 
     pageView.innerHTML = 'Entry Page View';
 
     // add our event listeners
-    usersInput.addEventListener('input', calculatePieCost);
-    cardsInput.addEventListener('input', calculatePieCost);
-    numbersInput.addEventListener('input', calculatePieCost);
+    usersInput.addEventListener('input', testInput);
+    cardsInput.addEventListener('input', testInput);
+    numbersInput.addEventListener('input', testInput);
 
     btnCreate.addEventListener('click', createButtonClicked);
     btnRemove.addEventListener('click', removeButtonClicked);
     btnStart.addEventListener('click', startButtonClicked);
     btnStop.addEventListener('click', stopButtonClicked);
 
+    // starting state
+    entryPageView();
 
     // create the function that we'll need
-    function calculatePieCost() {
-        console.log('clicked');
+    function testInput() {
+        console.log('input was clicked');
+    }
+
+    function removeSelected() {
+        let allCells = document.querySelectorAll('.cell');
+        [].forEach.call(allCells, function(e) {
+            e.innerHTML = '';
+            e.classList.remove('selected');
+        });
     }
 
     function createButtonClicked() {
@@ -54,11 +64,7 @@ window.addEventListener('load', function() {
 
     function removeButtonClicked() {
 
-        let allCells = document.querySelectorAll('.cell');
-        [].forEach.call(allCells, function(e) {
-            e.innerHTML = '';
-            e.classList.remove('selected');
-        });
+        removeSelected();
 
         bingoTable.classList.add('hidden');
 
@@ -68,13 +74,17 @@ window.addEventListener('load', function() {
 
     function startButtonClicked() {
         pageView.innerHTML = 'Game View';
-        // btnStart.innerHTML = 'Stop';
         btnStart.classList.remove('visible');
         btnStart.classList.add('hidden');
         btnStop.classList.remove('hidden');
         btnStop.classList.add('visible');
         numbersSection.classList.add('visible');
         winnersSection.classList.add('visible');
+
+        console.log('inputs data: ', usersInput.value, cardsInput.value, numbersInput.value);
+
+        newCard();
+        generateRandomNumber();
     }
 
     function stopButtonClicked() {
@@ -86,6 +96,10 @@ window.addEventListener('load', function() {
 
     function entryPageView() {
         pageView.innerHTML = 'Entry Page View';
+        bingoTable.classList.remove('visible');
+        bingoTable.classList.add('hidden');
+        randomSection.classList.remove('visible');
+        randomSection.classList.add('hidden');
         btnCreate.classList.remove('hidden');
         btnCreate.classList.add('visible');
         configuration.classList.remove('hidden');
@@ -98,6 +112,8 @@ window.addEventListener('load', function() {
         btnRemove.classList.add('hidden');
         btnStart.classList.remove('visible');
         btnStart.classList.add('hidden');
+        btnStop.classList.remove('visible');
+        btnStop.classList.add('hidden');
 
         let allWinNumbers = document.querySelectorAll('h5');
         [].forEach.call(allWinNumbers, function(e) {
@@ -112,8 +128,12 @@ window.addEventListener('load', function() {
         btnRemove.classList.add('visible');
         btnStart.classList.remove('hidden');
         btnStart.classList.add('visible');
+        configuration.classList.remove('visible');
         configuration.classList.add('hidden');
+        bingoTable.classList.remove('hidden');
+        bingoTable.classList.add('visible');
         pageView.innerHTML = 'Generated Cards View';
+        removeSelected();
     }
 
     /**
@@ -139,7 +159,7 @@ window.addEventListener('load', function() {
 
         do {
             //newNum = (colPlace[thisSquare] * 15) + getNewNum() + 1;
-            newNum = Math.floor(Math.random() * 100) + 1;
+            newNum = Math.floor( Math.random() * (numbersInput.value) ) + 1;
         }
         while (usedNums[newNum]);
 
@@ -150,24 +170,12 @@ window.addEventListener('load', function() {
 
     }
 
-
-    /* todo maybe need to remove this unused function */
-    function getNewNum() {
-        return Math.floor(Math.random() * 75); // todo WHY 75 ?
-    }
-
     /* lottery random number (generate random number between 1 and 100 */
-    /* todo create random colors */
-    function randomColor() {
-        // https://stackoverflow.com/questions/31929833/generating-a-random-background-color-every-second
-    }
-
     function generateRandomNumber() {
         // get random number every 2 seconds
         let timerId = setInterval(function() {
-            let randomGeneratedNumber = Math.floor(Math.random() * 100) + 1;
+            let randomGeneratedNumber = Math.floor( Math.random() * (numbersInput.value) ) + 1;
             randomNumber.innerHTML = randomGeneratedNumber;
-            randomNumber.style.background = randomColor();
 
             // write random generated number to section Numbers
             let ranNum = document.createElement('h5');
@@ -177,7 +185,7 @@ window.addEventListener('load', function() {
 
             for(let i = 0; i < squareNum.length; i++) {
                 if(randomGeneratedNumber === squareNum[i]) {
-                    document.getElementById(`square${i}`).classList.add('selected');
+                    document.getElementById(`square${i}`).classList.add('selected'); // todo fix
                 }
             }
 
@@ -307,14 +315,14 @@ window.addEventListener('load', function() {
 
 
     // create new card at first time
-    newCard();
-    generateRandomNumber();
+    // newCard();
+    // generateRandomNumber();
 
     // create new card by click the button (or link)
-    createCards.addEventListener('click', function() {
-       newCard();
-       generateRandomNumber();
-    });
+    // createCards.addEventListener('click', function() {
+    //    newCard();
+    //    generateRandomNumber();
+    // });
 
     /* todo chech if square is
     *

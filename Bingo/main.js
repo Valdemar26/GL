@@ -72,17 +72,34 @@ window.addEventListener('load', function() {
     }
 
     function createButtonClicked() {
+        let count_users = document.getElementById('users');
         let count_cards = document.getElementById('cards');
-        console.log(count_cards.value);
+        //console.log(count_users.value);
         let myTable = document.getElementsByTagName("table")[0];
 
         let myClone;
-        for(let i = 0; i < count_cards.value; i++) {
-            myClone = myTable.cloneNode(true); // the true is for deep cloning
-            myClone.classList.remove('template');
-            //document.body.appendChild(myClone);
-            generateRandomNumber();
-            content.appendChild(myClone);
+
+        for(let j = 1; j <= count_users.value; j++) {
+            let create_content_user = document.createElement('div');
+            let content_user_header = document.createElement('h4');
+            content_user_header.innerText = 'User ' +j;
+            create_content_user.id = 'user_' + j;
+            content.appendChild(create_content_user);
+            create_content_user.appendChild(content_user_header);
+            for(let i = 0; i < count_cards.value; i++) {
+                myClone = myTable.cloneNode(true); // the true is for deep cloning
+                myClone.classList.remove('template');
+                //document.body.appendChild(myClone);
+                //let cells = document.querySelectorAll('.cell');
+                //bingoTable.
+                // let all_cell = myClone.querySelectorAll('.cell');
+                // console.log(all_cell.length);
+                create_content_user.appendChild(myClone);
+                //console.log(myClone.rows);
+            }
+            //let user_container = document.getElementById('user_' + j);
+            //console.log(user_container);
+            newCard('user_' + j);
         }
         // let clone_times = myClone.repeat(count_cards.value);
         // document.body.appendChild(clone_times);
@@ -115,7 +132,7 @@ window.addEventListener('load', function() {
 
         console.log('inputs data: ', usersInput.value, cardsInput.value, numbersInput.value);
 
-        newCard();
+        //newCard();
         generateRandomNumber();
     }
 
@@ -175,35 +192,44 @@ window.addEventListener('load', function() {
 
     let usedNums = new Array(76);// empty array with length 76
 
-    function newCard() {
+    function newCard(user) {
         //Starting loop through each square card
         for(let i=0; i < 25; i++) {
-            setSquare(i);
+            setSquare(i, user);
         }
     }
 
-    function setSquare(thisSquare) {
+    function setSquare(thisSquare, user) {
+        console.log(user);
+        let user_id = document.getElementById(user);
         let currSquare = "square"+thisSquare;
         let newNum;
 
         /* I doesn't understand what code in line below doing and remove it */
-        //let colPlace = new Array(0,1,2,3,4,0,1,2,3,4,0,1,2,3,4,0,1,2,3,4,0,1,2,3,4);
+        let colPlace = new Array(0,1,2,3,4,0,1,2,3,4,0,1,2,3,4,0,1,2,3,4,0,1,2,3,4);
 
         do {
-            //newNum = (colPlace[thisSquare] * 15) + getNewNum() + 1;
-            newNum = Math.floor( Math.random() * (numbersInput.value) ) + 1;
+            newNum = (colPlace[thisSquare]) + getNewNum() + 1;
+            //newNum = Math.floor( Math.random() * (numbersInput.value) ) + 1;
         }
         while (usedNums[newNum]);
 
         usedNums[newNum] = true;
-        document.getElementById(currSquare).innerHTML = newNum;
+        console.log(user_id.querySelector('#' + currSquare).innerText = newNum);
+        user_id.querySelector('#' + currSquare).innerHTML = newNum;
+        //.innerHTML = newNum;
+        //document.getElementById(currSquare).innerHTML = newNum;
 
         squareNum.push(newNum);
 
     }
 
+    function getNewNum() {
+        return Math.floor( Math.random() * (numbersInput.value) ) + 1;
+    }
+
     /* lottery random number (generate random number between 1 and 100 */
-    function generateRandomNumber() {
+    function generateRandomNumber(table) {
         // get random number every 2 seconds
         let timerId = setInterval(function() {
             let randomGeneratedNumber = Math.floor( Math.random() * (numbersInput.value) ) + 1;

@@ -11,6 +11,7 @@ window.addEventListener('load', function() {
         squareNum = [], // array with numbers from bingo-card
         winner = false,
         content = document.querySelector('.content');
+    let timerId;
 
     /**
      * work with Entry Page View
@@ -50,55 +51,43 @@ window.addEventListener('load', function() {
     }
 
     function removeTable() {
-        let allTables = document.querySelectorAll('.bingotable');
-        // let tableCopy = document.querySelectorAll('template').splice(1);
-        // [].forEach.call(tableCopy, function(e) {
-        //     content.removeChild(tableCopy);
-        // });
-        [].forEach.call(allTables, function(e) {
-            e.classList.add('template'); // add .template class with display:none;
-            //content.removeChild(tableCopy); //todo need to use this code, but it doesn't work, because remove first table
+        let allTables = document.querySelectorAll('.bingotable:not(.template)');
+        Array.prototype.forEach.call(allTables, (table) => {
+            table.parentNode.removeChild(table);
         })
     }
 
     function createButtonClicked() {
         let count_users = document.getElementById('users'),
             count_cards = document.getElementById('cards'),
-            myTable = document.getElementsByTagName("table")[0],
-            myClone;
+            tableTemplate = document.getElementsByTagName("table")[0];
 
         for(let j = 1; j <= count_users.value; j++) {
-            let create_content_user = document.createElement('div'),
-                content_user_header = document.createElement('h4');
-            content_user_header.innerText = 'User ' +j;
-            create_content_user.id = 'user_' + j;
-            content.appendChild(create_content_user);
-            create_content_user.appendChild(content_user_header);
+            let userContent = document.createElement('div'),
+                userContentHeader = document.createElement('h4');
+            userContentHeader.innerText = 'User ' +j;
+            userContent.id = 'user_' + j;
+            content.appendChild(userContent);
+            userContent.appendChild(userContentHeader);
             for(let i = 0; i < count_cards.value; i++) {
-                myClone = myTable.cloneNode(true); // 'true' is for deep cloning
-                myClone.classList.remove('template');
-                //document.body.appendChild(myClone);
-                //let cells = document.querySelectorAll('.cell');
-                //bingoTable.
-                // let all_cell = myClone.querySelectorAll('.cell');
-                // console.log(all_cell.length);
-                create_content_user.appendChild(myClone);
-                //console.log(myClone.rows);
+                let clonedTable = tableTemplate.cloneNode(true); // 'true' is for deep cloning
+                clonedTable.classList.remove('template');
+                clonedTable.dataset['user'] = j;
+                clonedTable.dataset['idx'] = i;
+                userContent.appendChild(clonedTable);
+                newCard(clonedTable);
             }
-            //let user_container = document.getElementById('user_' + j);
-            //console.log(user_container);
-            newCard('user_' + j);
+
         }
-        // let clone_times = myClone.repeat(count_cards.value);
-        // document.body.appendChild(clone_times);
 
         generatedCardsView();
     }
 
     function removeButtonClicked() {
-
-        removeSelected();
-        removeTable(); // remove all generated table
+        document.querySelector('.content').innerHTML = '';
+        try {
+            clearInterval(timerId);
+        } catch (e) {}
 
         // back to Entry Page View
         entryPageView();
@@ -115,7 +104,6 @@ window.addEventListener('load', function() {
         randomSection.classList.remove('hidden');
         randomSection.classList.add('visible');
 
-        //newCard();
         generateRandomNumber();
     }
 
@@ -160,69 +148,51 @@ window.addEventListener('load', function() {
         configuration.classList.remove('visible');
         configuration.classList.add('hidden');
         pageView.innerHTML = 'Generated Cards View';
-        removeSelected();
     }
 
     /**
      * end of Entry Page View
      */
 
+    function newCard(card) {
+        let usedNums = [];
 
-    let usedNums = new Array(76);// empty array with length 76
-
-    function newCard(user) {
-        //Starting loop through each square card
         for(let i=0; i < 25; i++) {
-            setSquare(i, user);
+            let num = getUniqueNumber(usedNums);
+            squareNum.push(num);
+            card.querySelector('[data-id="'+i+'"]').innerText = num;
+            card.querySelector('[data-id="'+i+'"]').dataset['num'] = num;
         }
     }
 
-    function setSquare(thisSquare, user) {
-        console.log(user);
-        let user_id = document.getElementById(user);
-        let currSquare = "square"+thisSquare;
+    function getUniqueNumber(usedNums) {
         let newNum;
-
-        /* I doesn't understand what code in line below doing and remove it */
-        let colPlace = new Array(0,1,2,3,4,0,1,2,3,4,0,1,2,3,4,0,1,2,3,4,0,1,2,3,4);
-
         do {
-            newNum = (colPlace[thisSquare]) + getNewNum() + 1;
-            //newNum = Math.floor( Math.random() * (numbersInput.value) ) + 1;
+            newNum = Math.floor( Math.random() * (numbersInput.value) ) + 1;
         }
         while (usedNums[newNum]);
-
         usedNums[newNum] = true;
-        console.log(user_id.querySelector('#' + currSquare).innerText = newNum);
-        user_id.querySelector('#' + currSquare).innerHTML = newNum;
-
-        squareNum.push(newNum);
-    }
-
-    function getNewNum() {
-        return Math.floor( Math.random() * (numbersInput.value) ) + 1;
+        return newNum;
     }
 
     /* lottery random number (generate random number between 1 and 100 */
     function generateRandomNumber() {
+        let generatedNums = [];
         // get random number every 2 seconds
-        let timerId = setInterval(function() {
-            let randomGeneratedNumber = Math.floor( Math.random() * (numbersInput.value) ) + 1;
+        timerId = setInterval(function() {
+            let randomGeneratedNumber = getUniqueNumber(generatedNums);
             randomNumber.innerHTML = randomGeneratedNumber;
 
             // write random generated number to section Numbers
             let ranNum = document.createElement('h5');
             ranNum.innerHTML = randomGeneratedNumber;
             win.appendChild(ranNum);
-            console.log(randomGeneratedNumber);
+            let selectedCells = document.querySelectorAll(`[data-num="${randomGeneratedNumber}"]`);
+            Array.prototype.forEach.call(selectedCells, (cellNode) => {
+                cellNode.classList.add('selected');
+            });
 
-            for(let i = 0; i < squareNum.length; i++) {
-                if(randomGeneratedNumber === squareNum[i]) {
-                    document.getElementById(`square${i}`).classList.add('selected'); // todo fix
-                }
-            }
-
-            getWinner();
+            checkResults();
 
             if(winner === true) {
                 clearInterval(timerId);
@@ -231,114 +201,61 @@ window.addEventListener('load', function() {
 
         }, 100);
         /* todo fix to every 2000ms at line above and fix setTimeout */
-        // stop after 11 seconds (just for demo)
+        // stop after 15 seconds (just for demo)
         setTimeout(function() {
             clearInterval(timerId);
             console.log('stop');
-        }, 2000);
+        }, 15000);
     }
 
     /**
      * check winner
      *
-     * todo remove function getWinner in another file!!!
+     * todo remove function checkResults in another file!!!
      **/
-    function getWinner() {
-        let square0 = document.getElementById('square0');
-            square1 = document.getElementById('square1'),
-            square2 = document.getElementById('square2'),
-            square3 = document.getElementById('square3'),
-            square4 = document.getElementById('square4'),
-            square5 = document.getElementById('square5'),
-            square6 = document.getElementById('square6'),
-            square7 = document.getElementById('square7'),
-            square8 = document.getElementById('square8'),
-            square9 = document.getElementById('square9'),
-            square10 = document.getElementById('square10'),
-            square11 = document.getElementById('square11'),
-            square12 = document.getElementById('square12'),
-            square13 = document.getElementById('square13'),
-            square14 = document.getElementById('square14'),
-            square15 = document.getElementById('square15'),
-            square16 = document.getElementById('square16'),
-            square17 = document.getElementById('square17'),
-            square18 = document.getElementById('square18'),
-            square19 = document.getElementById('square19'),
-            square20 = document.getElementById('square20'),
-            square21 = document.getElementById('square21'),
-            square22 = document.getElementById('square22'),
-            square23 = document.getElementById('square23'),
-            square24 = document.getElementById('square24'),
-            winnerCount = 0,
-            message = document.querySelector('.message');
+    function checkResults() {
+        function checkSelectedLine(card) {
+            let selectedRows = (card.dataset['selectedRows'] || "").split(",");
+            for(let i = 0; i <= 4; i++) {
+                if (selectedRows.includes(String(i))) {
+                    continue;
+                }
 
-        if( square0.classList.contains('selected') && square1.classList.contains('selected')
-            && square2.classList.contains('selected') && square3.classList.contains('selected')
-            && square4.classList.contains('selected') ) {
-            console.log(`USER X crossed the 1 line`);
-            winnerCount++;
+                let counter = 0;
+                for(let j = i*5; j <= i*5+4; j++) {
+                    let isCellSelected = card.querySelector(`[data-id="${j}"].selected`);
+                    counter += isCellSelected ? 1 : 0;
+                }
 
-            // write message to Winners Section
-            let winnerMessage = document.createElement('h4');
-            winnerMessage.innerHTML = `USER X crossed the 1 line`;
-            message.appendChild(winnerMessage);
+                if (counter === 5) {
+                    selectedRows.push(i);
+                    card.dataset['selectedRows'] = selectedRows.join(",");
+                    winnersSection.innerHTML = `Line ${i+1} in card ${card.dataset.idx} is selected.`;
+                    console.log('Line ' + i + ' in card ' + (card.dataset.idx+1) +' is selected');
+
+                    break;
+                }
+            }
         }
 
-        if( square5.classList.contains('selected') && square6.classList.contains('selected')
-            && square7.classList.contains('selected') && square8.classList.contains('selected')
-            && square9.classList.contains('selected') ) {
-            console.log(`USER X crossed the 2 line`);
-            winnerCount++;
-
-            let winnerMessage = document.createElement('h4');
-            winnerMessage.innerHTML = `USER X crossed the 2 line`;
-            message.appendChild(winnerMessage);
+        function checkWinner(card) {
+            return card.querySelectorAll('[data-id].selected').length === 25;
         }
 
-        if( square10.classList.contains('selected') && square11.classList.contains('selected')
-            && square12.classList.contains('selected') && square13.classList.contains('selected')
-            && square14.classList.contains('selected') ) {
-            console.log(`USER X crossed the 3 line`);
-            winnerCount++;
 
-            let winnerMessage = document.createElement('h4');
-            winnerMessage.innerHTML = `USER X crossed the 3 line`;
-            message.appendChild(winnerMessage);
+        let cards = document.querySelectorAll('.bingotable');
+        for (let i = 0; i < cards.length; i++) {
+            let card = cards[i];
+            checkSelectedLine(card);
+            let hasWinner = checkWinner(card);
+
+            if (hasWinner) {
+                winnersSection.innerHTML = `User: ${card.dataset.user} in ${card.dataset.idx} Win the Game!`;
+                console.log(`Winner!!!! User: ${card.dataset.user}, card: ${card.dataset.idx}`);
+                clearInterval(timerId);
+                break;
+            }
         }
-
-        if( square15.classList.contains('selected') && square16.classList.contains('selected')
-            && square17.classList.contains('selected') && square18.classList.contains('selected')
-            && square19.classList.contains('selected') ) {
-            console.log(`USER X crossed the 4 line`);
-            winnerCount++;
-
-            let winnerMessage = document.createElement('h4');
-            winnerMessage.innerHTML = `USER X crossed the 4 line`;
-            message.appendChild(winnerMessage);
-        }
-
-        if( square20.classList.contains('selected') && square21.classList.contains('selected')
-            && square22.classList.contains('selected') && square23.classList.contains('selected')
-            && square24.classList.contains('selected') ) {
-            console.log(`USER X crossed the 5 line`);
-            winnerCount++;
-
-            let winnerMessage = document.createElement('h4');
-            winnerMessage.innerHTML = `USER X crossed the 5 line`;
-            message.appendChild(winnerMessage);
-        }
-
-        /* check if all cards are selected and game finished */
-        if(winnerCount === 5) {
-            console.log('USER X won the Game! Congrats!');
-            winner = true;
-
-            let winnerMessage = document.createElement('h4');
-            winnerMessage.innerHTML = `USER X won the Game! Congrats!`;
-            message.appendChild(winnerMessage);
-
-        }
-
     }
 
 });

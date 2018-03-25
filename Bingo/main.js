@@ -1,75 +1,64 @@
-/**
- * Created by valdemar on 14.03.18.
- */
-
 window.addEventListener('load', function() {
 
+    /**
+     * grab all variables what we need
+     */
     let randomNumber = document.querySelector('.random-number'),
         numbersSection = document.querySelector('.numbers-section'),
         winnersSection = document.querySelector('.winners-section'),
         win = document.querySelector('.win'),
+        message = document.querySelector('.message'),
         squareNum = [], // array with numbers from bingo-card
         winner = false,
-        content = document.querySelector('.content');
-    let timerId;
+        content = document.querySelector('.content'),
+        winMessage = document.createElement('h5'),
+        timerId;
 
-    /**
-     * work with Entry Page View
-     */
-    // grab everything we need
-    const usersInput = document.querySelector('[name=users]'),
-        cardsInput = document.querySelector('[name=cards]'),
-        numbersInput = document.querySelector('[name=numbers]'),
+    const numbersInput = document.querySelector('[name=numbers]'),
         configuration = document.querySelector('.configuration'),
         pageView = document.querySelector('.page-view'),
         btnCreate = document.querySelector('.btn-create'),
         btnRemove = document.querySelector('.btn-remove'),
         btnStart = document.querySelector('.btn-start'),
         btnStop = document.querySelector('.btn-stop'),
-        bingoTable = document.querySelector('.bingotable'),
+        btnStartNewGame = document.querySelector('.btn-new'),
         randomSection = document.querySelector('.random-section');
 
     pageView.innerHTML = 'Entry Page View';
 
-    // add our event listeners
+    /**
+     * add our event listeners
+     */
     btnCreate.addEventListener('click', createButtonClicked);
     btnRemove.addEventListener('click', removeButtonClicked);
     btnStart.addEventListener('click', startButtonClicked);
     btnStop.addEventListener('click', stopButtonClicked);
+    btnStartNewGame.addEventListener('click', startNewGame);
 
-    // starting state
+    /**
+     * set starting state in game
+     */
     entryPageView();
 
-    // create the function that we'll need
-
-    function removeSelected() {
-        let allCells = document.querySelectorAll('.cell');
-        [].forEach.call(allCells, function(e) {
-            e.innerHTML = '';
-            e.classList.remove('selected');
-        });
-    }
-
-    function removeTable() {
-        let allTables = document.querySelectorAll('.bingotable:not(.template)');
-        Array.prototype.forEach.call(allTables, (table) => {
-            table.parentNode.removeChild(table);
-        })
-    }
-
+    /**
+     * 'createButtonClicked' is function occurs when button 'Create Cards' is clicked
+     * and set state from 'Entry Page View' to 'Generated Cards View'
+     *
+     * @return {object} newCard
+     */
     function createButtonClicked() {
-        let count_users = document.getElementById('users'),
-            count_cards = document.getElementById('cards'),
+        let countUsers = document.getElementById('users'),
+            countCards = document.getElementById('cards'),
             tableTemplate = document.getElementsByTagName("table")[0];
 
-        for(let j = 1; j <= count_users.value; j++) {
+        for(let j = 1; j <= countUsers.value; j++) {
             let userContent = document.createElement('div'),
                 userContentHeader = document.createElement('h4');
             userContentHeader.innerText = 'User ' +j;
             userContent.id = 'user_' + j;
             content.appendChild(userContent);
             userContent.appendChild(userContentHeader);
-            for(let i = 0; i < count_cards.value; i++) {
+            for(let i = 0; i < countCards.value; i++) {
                 let clonedTable = tableTemplate.cloneNode(true); // 'true' is for deep cloning
                 clonedTable.classList.remove('template');
                 clonedTable.dataset['user'] = j;
@@ -77,22 +66,33 @@ window.addEventListener('load', function() {
                 userContent.appendChild(clonedTable);
                 newCard(clonedTable);
             }
-
         }
 
         generatedCardsView();
     }
 
+    /**
+     * removeButtonClicked is function occurs when button 'Remove Cards' is clicked
+     * and set state from 'Generated Cards View' to 'Entry Page View'
+     *
+     * function remove cards from DOM and clearInterval for timer
+     *
+     */
     function removeButtonClicked() {
         document.querySelector('.content').innerHTML = '';
         try {
             clearInterval(timerId);
         } catch (e) {}
 
-        // back to Entry Page View
-        entryPageView();
+        entryPageView(); // back to Entry Page View
     }
 
+    /**
+     * 'startButtonClicked' is function occurs when button 'Start Game' is clicked
+     * and set state from 'Generated Cards View' to 'Game View'
+     *
+     * @return {function} generateRandomNumber
+     */
     function startButtonClicked() {
         pageView.innerHTML = 'Game View';
         btnStart.classList.remove('visible');
@@ -107,12 +107,31 @@ window.addEventListener('load', function() {
         generateRandomNumber();
     }
 
+    /**
+     * 'stopButtonClicked' is function occurs when button 'Stop' is clicked
+     * and set state from 'Game View' to 'Generated Cards View'
+     *
+     */
     function stopButtonClicked() {
+        clearInterval(timerId);
         generatedCardsView();
         btnStop.classList.remove('visible');
         btnStop.classList.add('hidden');
     }
 
+    /**
+     * 'startNewGame' is function occurs when button 'Start New Game' is clicked
+     * and set state from 'Game View' to 'Entry Page View'
+     *
+     */
+    function startNewGame() {
+        removeButtonClicked();
+        entryPageView();
+    }
+
+    /**
+     * 'entryPageView' is function realized state 'Entry Page View' (show and hide buttons)
+     */
     function entryPageView() {
         pageView.innerHTML = 'Entry Page View';
         randomSection.classList.remove('visible');
@@ -131,13 +150,13 @@ window.addEventListener('load', function() {
         btnStart.classList.add('hidden');
         btnStop.classList.remove('visible');
         btnStop.classList.add('hidden');
-
-        let allWinNumbers = document.querySelectorAll('h5');
-        [].forEach.call(allWinNumbers, function(e) {
-            e.innerHTML = '';
-        });
+        btnStartNewGame.classList.remove('visible');
+        btnStartNewGame.classList.add('hidden');
     }
-    
+
+    /**
+     * 'generatedCardsView' is function realized state 'Generated Cards View' (show and hide buttons)
+     */
     function generatedCardsView() {
         btnCreate.classList.remove('visible');
         btnCreate.classList.add('hidden');
@@ -148,12 +167,16 @@ window.addEventListener('load', function() {
         configuration.classList.remove('visible');
         configuration.classList.add('hidden');
         pageView.innerHTML = 'Generated Cards View';
+        btnStartNewGame.classList.remove('visible');
+        btnStartNewGame.classList.add('hidden');
     }
 
-    /**
-     * end of Entry Page View
-     */
 
+    /**
+     * 'newCard' is function that generates bingo cards
+     *
+     * @param {object} card
+     */
     function newCard(card) {
         let usedNums = [];
 
@@ -165,6 +188,11 @@ window.addEventListener('load', function() {
         }
     }
 
+    /**
+     * 'getUniqueNumber' is function that generates unique numbers
+     * @param usedNums
+     *
+     */
     function getUniqueNumber(usedNums) {
         let newNum;
         do {
@@ -175,7 +203,11 @@ window.addEventListener('load', function() {
         return newNum;
     }
 
-    /* lottery random number (generate random number between 1 and 100 */
+    /**
+     * 'generateRandomNumber' is function that generates random numbers every 2 seconds
+     * and add class 'selected' to card cell, if the numbers match
+     *
+     */
     function generateRandomNumber() {
         let generatedNums = [];
         // get random number every 2 seconds
@@ -196,22 +228,13 @@ window.addEventListener('load', function() {
 
             if(winner === true) {
                 clearInterval(timerId);
-                console.log('clearInterval');
             }
 
-        }, 100);
-        /* todo fix to every 2000ms at line above and fix setTimeout */
-        // stop after 15 seconds (just for demo)
-        setTimeout(function() {
-            clearInterval(timerId);
-            console.log('stop');
-        }, 15000);
+        }, 2000);
     }
 
     /**
-     * check winner
-     *
-     * todo remove function checkResults in another file!!!
+     * check results(line is selected) and check winner functions
      **/
     function checkResults() {
         function checkSelectedLine(card) {
@@ -230,9 +253,8 @@ window.addEventListener('load', function() {
                 if (counter === 5) {
                     selectedRows.push(i);
                     card.dataset['selectedRows'] = selectedRows.join(",");
-                    winnersSection.innerHTML = `Line ${i+1} in card ${card.dataset.idx} is selected.`;
-                    console.log('Line ' + i + ' in card ' + (card.dataset.idx+1) +' is selected');
-
+                    winMessage.innerHTML = `USER ${card.dataset.user} has crossed the ${i} line in card ${card.dataset.idx}.`;
+                    message.appendChild(winMessage);
                     break;
                 }
             }
@@ -250,8 +272,12 @@ window.addEventListener('load', function() {
             let hasWinner = checkWinner(card);
 
             if (hasWinner) {
-                winnersSection.innerHTML = `User: ${card.dataset.user} in ${card.dataset.idx} Win the Game!`;
-                console.log(`Winner!!!! User: ${card.dataset.user}, card: ${card.dataset.idx}`);
+                winMessage.innerHTML = `USER ${card.dataset.user} in card ${card.dataset.idx} Won the Game!`;
+                message.appendChild(winMessage);
+                btnStop.classList.remove('visible');
+                btnStop.classList.add('hidden');
+                btnStartNewGame.classList.remove('hidden');
+                btnStartNewGame.classList.add('visible');
                 clearInterval(timerId);
                 break;
             }

@@ -180,7 +180,7 @@ window.addEventListener('load', function() {
     function newCard(card) {
         let usedNums = [];
 
-        for(let i=0; i < 25; i++) {
+        for(let i=1; i <= 25; i++) {
             let num = getUniqueNumber(usedNums);
             squareNum.push(num);
             card.querySelector('[data-id="'+i+'"]').innerText = num;
